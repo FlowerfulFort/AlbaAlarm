@@ -1,3 +1,7 @@
 .vscode/
 *.ini
+<<<<<<< HEAD
 env/
+=======
+env/
+>>>>>>> 0cdfee4265e8e1992908e61fb3266c2de532d7b3
