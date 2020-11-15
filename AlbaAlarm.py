@@ -8,6 +8,8 @@ import configparser
 import time
 # import threading
 import signal
+from plyer import notification
+
 def signal_handle(sig, frame):
     ExitAlertThrow('Ctrl+C received.. exit the program.')
     sys.exit()
@@ -51,7 +53,7 @@ bs = BeautifulSoup(url.text, 'html.parser')
 
 oldFirstTable = bs.select_one('tr.firstLine')
 newFirstTable = ''
-count = 0
+count = 0   # for loop counting
 print('now : {0}'.format(oldFirstTable.select_one('span.title').text))
 while True:
     time.sleep(int(webconf['refreshrate']))
@@ -61,5 +63,10 @@ while True:
 
     if(not oldFirstTable.select_one('span.title') == newFirstTable.select_one('span.title')):
         print('Count : {0}, {1}'.format(count, newFirstTable.select_one('span.title').text))
+        notification.notify(
+            title = newFirstTable.select_one('span.company').text,
+            message = '{albaTitle}\n{place}'.format(albaTitle=newFirstTable.select_one('span.title').text, place=newFirstTable.select_one('td.local > div').text),
+            timeout = 5
+        )
         oldFirstTable = newFirstTable
     count+=1
